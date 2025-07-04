@@ -1,0 +1,103 @@
+=================TASK-1===============
+updat only one document with branch cse and age 21 where age is 5
+display all the documents where age is between 25 to 50
+display all the documents having age other then 70
+display documents having age 45 or 70 or 25
+
+1) db.student.updateOne({age:5},{$set:{branch:"CSE",age:21}})
+
+2) db.student.find({age:{$gt:25,$lt:50}})
+
+3) db.student.find({age:{$ne:70}})
+
+4) db.student.find({age:{$in:[47,70,25]}})
+
+5) db.student.find({name:{$regex:/^[a-zA-z]{3,10}/}})
+
+=================TASK-2===============
+Que: create a collection employee having fields name age and joining date 
+1--> insert 3 to 4 record in the collection
+2--> list all employee to join before 1 january 2010
+3--> update the name on employee as www whose joining date is 5-may-2015
+
+1) db.employee.insertMany([
+  { name: "Neel", age: 30, joining_date: new Date("2008-06-15") },
+  { name: "Kavish", age: 40, joining_date: new Date("2005-12-20") },
+  { name: "Modi", age: 28, joining_date: new Date("2015-05-05") },
+  { name: "Hetansh", age: 35, joining_date: new Date("2012-03-10") }])
+
+2) db.employee.find({joining_date:{$lt:new Date("2010-01-01")}})
+
+3) db.employee.updateOne({ joining_date: new Date("2015-05-05")},{ $set: { name: "www"}})
+
+
+=================TASK-3===============
+Que: create a collection having fields first name ,lastname,subject,age,gender,salary
+1--> enter 3 to 4 record in the collection
+2--> find all first names where abc occures as a substring or seperate word
+3--> update the salary by half if last name is begins with capital P
+4--> find all records whose age ends with 0 or 5
+5--> update first records by gender to others 
+6--> update salary of person whose salary less then 20000 to double 
+
+1) db.data.insertMany(
+    [
+    {fname:"Neel",lname:"Patel",subject:"FSD",age:18,gender:"Male",salary:20000},
+    {fname:"Ayush",lname:"Patil",subject:"Python",age:21,gender:"Male",salary:28000},
+    {fname:"Hetansh",lname:"Panchal",subject:"DE",age:15,gender:"Male",salary:15000},
+    {fname:"Divya",lname:"Modi",subject:"DM",age:30,gender:"Male",salary:20000}
+    ]
+)
+
+2) db.data.find({fname:{$regex:/abc/}},{fname:1,_id:0})
+
+3) db.data.updateMany({lname:{$regex:/^P/i}},{$mul:{salary:0.5}})
+
+4) db.data.find({age:{regex:/015$/}})
+
+5) db.data.updateOne({},{$set:{gender:"other"}})
+
+6) db.data.updateMany({salary:{$lt:20000}},{$mul:{salary:2}})
+
+
+=================TASK-4===============
+Que: create a collection a students having fields name ,department,cgpa,admisoon date and graduated
+1--> insert 3 record in the collection
+2--> update a graduated as true for students admitted before 1-jan-2021
+3--> delete students with cgpa less then 5 and graduated true 
+4--> find computer science students admitted in 2022 return name and admisoon date
+5--> find name of first three rank students 
+
+
+=================TASK-5===============
+db.abc.insertOne({user_id:01,age:21,status:"A"})
+
+db.abc.find({},{used_id:1,status:1})
+
+db.abc.find({status:{$ne:"A"}})
+
+db.abc.find({age:{$gt:25,$lte:50}})
+
+==============Indexing==============
+
+db.collectionname.createIndex({field:value})
+
+in above query field value=1 --> ascending
+in above query field value=-1 --> descending
+
+db.collectionname.find().explain("executionStates)
+
+
+O/P:
+    document Examined: 
+    nReturned: 
+    stage: IXSCAN / CollSCAN
+
+    in colscan --> show all documents in document Examined and in nReturned matched no show
+
+    in IXSCAN --> in both document Examined and nReturned only mathed no show
+
+
+ db.student.createIndex({age:1})
+
+ db.student.find({age:10}).explain("executionStats")
